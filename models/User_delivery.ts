@@ -1,49 +1,49 @@
 "use strict";
+
 import { Model, UUIDV4 } from "sequelize";
 
-type RoleType = "admin" | "moderator" | "delivery";
-type Statetype = "active" | "pending" | "locked";
+type StatetypeDeluvery = "active" | "pending" | "locked";
 
-interface UserAttrybutes {
+interface UserAttrybutesDelivery {
   id: string;
   firstname: string;
   lastname: string;
-  ci: number;
+  email: string;
   password: string;
-  state: Statetype;
-  role: RoleType;
+  address: string;
+  state: StatetypeDeluvery;
+  age: number;
   imgface: string;
   imgci: string;
   imgtt: string;
-  address: string;
-  age: number;
-  email: string;
+  ci: number;
   createdAt: Date;
   updatedAt: Date;
 }
+
 module.exports = (sequelize: any, DataTypes: any) => {
-  class User extends Model<UserAttrybutes> implements UserAttrybutes {
+  class User_delivery
+    extends Model<UserAttrybutesDelivery>
+    implements UserAttrybutesDelivery
+  {
     id!: string;
     firstname!: string;
     lastname!: string;
-    ci!: number;
+    email!: string;
     password!: string;
-    state!: Statetype;
-    role!: RoleType;
+    address!: string;
+    state!: StatetypeDeluvery;
+    age!: number;
     imgface!: string;
     imgci!: string;
     imgtt!: string;
-    address!: string;
-    age!: number;
-    email!: string;
+    ci!: number;
     createdAt!: Date;
     updatedAt!: Date;
 
-    static associate(models: any) {
-      // define association here
-    }
+    static associate(models: any) {}
   }
-  User.init(
+  User_delivery.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -59,23 +59,25 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      ci: {
-        type: DataTypes.NUMBER,
+      email: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      state: {
-        type: DataTypes.ENUM,
+      address: {
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["active", "pending", "locked"],
       },
-      role: {
-        type: DataTypes.ENUM,
+      state: {
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["admin", "moderator", "delivery"],
+      },
+      age: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       imgface: {
         type: DataTypes.STRING,
@@ -87,18 +89,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       imgtt: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
-      address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      age: {
+      ci: {
         type: DataTypes.NUMBER,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
         allowNull: false,
       },
       createdAt: DataTypes.DATE,
@@ -106,8 +99,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "User_delivery",
     }
   );
-  return User;
 };
