@@ -7,17 +7,19 @@ interface UserAttrybutesClient {
   id: string;
   firstname: string;
   lastname: string;
-  ci: number;
-  password: string;
-  state: Statetype;
-  address: string;
-  age: number;
   email: string;
+  password: string;
+  address: string;
+  state: Statetype;
+  age: number;
+  rol: "client";
+  ci: number;
+  phome: number;
   createdAt: Date;
   updatedAt: Date;
 }
 module.exports = (sequelize: any, DataTypes: any) => {
-  class User_client
+  class UserClient
     extends Model<UserAttrybutesClient>
     implements UserAttrybutesClient
   {
@@ -30,14 +32,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
     address!: string;
     age!: number;
     email!: string;
+    rol!: "client";
+    phome!: number;
     createdAt!: Date;
     updatedAt!: Date;
 
-    static associate(models: any) {
-      // define association here
-    }
+    // static associate(models: any) {
+    // define association here
+    // }
   }
-  User_client.init(
+  UserClient.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -54,7 +58,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       ci: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       password: {
@@ -71,11 +75,21 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       age: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      rol: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "client",
+      },
+      phome: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       createdAt: DataTypes.DATE,
@@ -83,8 +97,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "User_client",
+      modelName: "UserClient",
     }
   );
-  return User_client;
+  return UserClient;
 };

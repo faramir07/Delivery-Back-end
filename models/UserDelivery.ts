@@ -17,12 +17,15 @@ interface UserAttrybutesDelivery {
   imgci: string;
   imgtt: string;
   ci: number;
+  rol: "delivery";
+  phome: number;
+  base: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class User_delivery
+  class UserDelivery
     extends Model<UserAttrybutesDelivery>
     implements UserAttrybutesDelivery
   {
@@ -38,12 +41,17 @@ module.exports = (sequelize: any, DataTypes: any) => {
     imgci!: string;
     imgtt!: string;
     ci!: number;
+    rol!: "delivery";
+    phome!: number;
+    base!: number;
     createdAt!: Date;
     updatedAt!: Date;
 
-    static associate(models: any) {}
+    // static associate(models: any) {
+
+    // }
   }
-  User_delivery.init(
+  UserDelivery.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -62,6 +70,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
       },
       password: {
         type: DataTypes.STRING,
@@ -76,7 +85,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       age: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       imgface: {
@@ -91,15 +100,28 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
       },
       ci: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      rol: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "delivery",
+      },
+      phome: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      base: {
+        type: DataTypes.INTEGER,       
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },
     {
       sequelize,
-      modelName: "User_delivery",
+      modelName: "UserDelivery",
     }
   );
+  return UserDelivery
 };
