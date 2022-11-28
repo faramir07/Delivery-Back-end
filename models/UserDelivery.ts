@@ -13,9 +13,6 @@ interface UserAttrybutesDelivery {
   address: string;
   state: StatetypeDeluvery;
   age: number;
-  imgface: string;
-  imgci: string;
-  imgtt: string;
   ci: number;
   rol: "delivery";
   phome: number;
@@ -37,9 +34,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
     address!: string;
     state!: StatetypeDeluvery;
     age!: number;
-    imgface!: string;
-    imgci!: string;
-    imgtt!: string;
     ci!: number;
     rol!: "delivery";
     phome!: number;
@@ -87,17 +81,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
       age: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
-      imgface: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      imgci: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      imgtt: {
-        type: DataTypes.STRING,
       },
       ci: {
         type: DataTypes.INTEGER,

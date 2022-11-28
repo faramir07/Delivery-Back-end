@@ -1,7 +1,7 @@
 "use strict";
-import { Model, UUIDV4 } from "sequelize";
+import {  Model, UUIDV4 } from "sequelize";
 
-type Statetype = "active" | "locked";
+type Statetype = "active" | "locked" | "inactive";
 type Roltype = "admin" | "moderator";
 
 interface UserAttrybutesAdmin {
@@ -76,7 +76,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       state: {
         type: DataTypes.ENUM,
         allowNull: false,
-        values: ["active", "locked"],
+        values: ["active", "locked", "inactive"],
       },
       age: {
         type: DataTypes.INTEGER,
