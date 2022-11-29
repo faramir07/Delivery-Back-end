@@ -1,9 +1,6 @@
 "use strict";
-
 import { Model, UUIDV4 } from "sequelize";
-
 type StatetypeDeluvery = "active" | "pending" | "locked";
-
 interface UserAttrybutesDelivery {
   id: string;
   firstname: string;
@@ -41,9 +38,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
     createdAt!: Date;
     updatedAt!: Date;
 
-    // static associate(models: any) {
-
-    // }
+    static associate(models: any) {
+      UserDelivery.hasMany(models.Sevices);
+      UserDelivery.hasMany(models.ImageEvidences);
+    }
   }
   UserDelivery.init(
     {
@@ -64,7 +62,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -96,7 +94,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       base: {
-        type: DataTypes.INTEGER,       
+        type: DataTypes.INTEGER,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
@@ -106,5 +104,5 @@ module.exports = (sequelize: any, DataTypes: any) => {
       modelName: "UserDelivery",
     }
   );
-  return UserDelivery
+  return UserDelivery;
 };

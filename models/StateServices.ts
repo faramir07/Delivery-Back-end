@@ -24,9 +24,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
     createdAt!: Date;
     updatedAt!: Date;
 
-    // static associate(models: any) {
-    // define association here
-    // }
+    static associate(models: any) {
+      StateServices.hasMany(models.ImageEvidences);
+      StateServices.belongsTo(models.Services);
+    }
   }
 
   StateServices.init(

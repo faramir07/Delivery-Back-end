@@ -2,7 +2,6 @@
 import { Model, UUIDV4 } from "sequelize";
 
 type Statetype = "active" | "locked";
-
 interface UserAttrybutesClient {
   id: string;
   firstname: string;
@@ -37,9 +36,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
     createdAt!: Date;
     updatedAt!: Date;
 
-    // static associate(models: any) {
-    // define association here
-    // }
+    static associate(models: any) {
+      UserClient.hasMany(models.Sevices);
+    }
   }
   UserClient.init(
     {

@@ -3,7 +3,6 @@ import {  Model, UUIDV4 } from "sequelize";
 
 type Statetype = "active" | "locked" | "inactive";
 type Roltype = "admin" | "moderator";
-
 interface UserAttrybutesAdmin {
   id: string;
   firstname: string;
@@ -39,9 +38,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
     createdAt!: Date;
     updatedAt!: Date;
 
-    // static associate(models: any) {
-    // define association here
-    // }
+    static associate(models: any) {
+      UserAdmin.hasMany(models.Sevices);
+    }
   }
 
   UserAdmin.init(

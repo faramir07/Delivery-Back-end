@@ -16,8 +16,8 @@ interface ImageEvidencesType {
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class ImageEvidences
-  extends Model<ImageEvidencesType>
-  implements ImageEvidencesType
+    extends Model<ImageEvidencesType>
+    implements ImageEvidencesType
   {
     id!: string;
     imagename!: string;
@@ -27,18 +27,19 @@ module.exports = (sequelize: any, DataTypes: any) => {
     createdAt!: Date;
     updatedAt!: Date;
 
-    // static associate(models: any) {
-    // define association here
-    // }
+    static associate(models: any) {
+      ImageEvidences.belongsTo(models.StateServices);
+      ImageEvidences.belongsTo(models.UserDelivery);
+    }
   }
 
   ImageEvidences.init(
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue:UUIDV4,
+        defaultValue: UUIDV4,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       imagename: {
         type: DataTypes.STRING,
@@ -59,8 +60,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "ImageEvidences"
+      modelName: "ImageEvidences",
     }
   );
   return ImageEvidences;
-}
+};

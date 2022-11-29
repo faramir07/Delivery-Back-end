@@ -4,7 +4,6 @@ import { Model, UUIDV4 } from "sequelize";
 type Statetype = "pending" | "assigned" | "cancelled" | "finished";
 type Typeservicetype = "going" | "round trip";
 type Typepaymenttype = "cash" | "transfer";
-
 interface ServiceType {
   id: string;
   description: string;
@@ -32,9 +31,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
     createdAt!: Date;
     updatedAt!: Date;
 
-    // static associate(models: any) {
-    // define association here
-    // }
+    static associate(models: any) {
+      Services.hasMany(models.StateServices);
+      Services.belongsTo(models.UserAdmin);
+      Services.belongsTo(models.UserClient);
+      Services.belongsTo(models.UserDelivery);
+    }
   }
 
   Services.init(
