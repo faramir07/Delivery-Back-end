@@ -37,7 +37,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserClient.hasMany(models.Sevices);
+      UserClient.hasMany(models.Services, { foreignKey: 'useCSer_id' });
     }
   }
   UserClient.init(
@@ -67,6 +67,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       state: {
         type: DataTypes.ENUM,
         allowNull: false,
+        defaultValue: "active",
         values: ["active", "pending", "locked"],
       },
       address: {

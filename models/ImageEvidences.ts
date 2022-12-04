@@ -1,9 +1,7 @@
 "user strict";
-
 import { Model, UUIDV4 } from "sequelize";
 
 type ImagetypeType = "evidence" | "document";
-
 interface ImageEvidencesType {
   id: string;
   imagename: string;
@@ -28,8 +26,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      ImageEvidences.belongsTo(models.StateServices);
-      ImageEvidences.belongsTo(models.UserDelivery);
+      ImageEvidences.belongsTo(models.StateServices, { foreignKey: 'stateImg_id' });
+      ImageEvidences.belongsTo(models.UserDelivery, { foreignKey: 'userDImg_id'});
     }
   }
 
@@ -50,7 +48,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       imagetype: {
-        type: DataTypes.UNUM,
+        type: DataTypes.ENUM,
         allowNull: false,
         values: ["evidence", "document"],
       },

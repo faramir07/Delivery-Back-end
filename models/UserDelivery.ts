@@ -1,5 +1,6 @@
 "use strict";
 import { Model, UUIDV4 } from "sequelize";
+
 type StatetypeDeluvery = "active" | "pending" | "locked";
 interface UserAttrybutesDelivery {
   id: string;
@@ -39,8 +40,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserDelivery.hasMany(models.Sevices);
-      UserDelivery.hasMany(models.ImageEvidences);
+      UserDelivery.hasMany(models.Services, { foreignKey: 'userDSer_id' });
+      UserDelivery.hasMany(models.ImageEvidences, { foreignKey: 'userDImg_id' });
     }
   }
   UserDelivery.init(

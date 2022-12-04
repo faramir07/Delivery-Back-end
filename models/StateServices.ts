@@ -25,8 +25,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      StateServices.hasMany(models.ImageEvidences);
-      StateServices.belongsTo(models.Services);
+      StateServices.hasMany(models.ImageEvidences, { foreignKey: 'stateImg_id' });
+      StateServices.belongsTo(models.Services, { foreignKey: 'stateSer_id' });
     }
   }
 
