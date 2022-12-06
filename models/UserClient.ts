@@ -37,7 +37,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserClient.hasMany(models.Services, { foreignKey: 'useCSer_id' });
+      UserClient.hasMany(models.Services, { foreignKey: "useCSer_id" });
     }
   }
   UserClient.init(
@@ -65,10 +65,17 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       state: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "active",
-        values: ["active", "pending", "locked"],
+        validate: {
+          validator: (value: string) => {
+            const enuns = ["active", "pending", "locked"];
+            if (!enuns.includes(value)) {
+              throw new Error("no es una opción válida");
+            }
+          },
+        },
       },
       address: {
         type: DataTypes.STRING,

@@ -1,7 +1,7 @@
 "use strict";
 import { Model, UUIDV4 } from "sequelize";
 
-type StatetypeDeluvery = "active" | "pending" | "locked";
+type StatetypeDeluvery = "active" | "pending" | "locked" | "deactivate";
 interface UserAttrybutesDelivery {
   id: string;
   firstname: string;
@@ -76,6 +76,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
       state: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: "pending",
+        validate: {
+          validator: (value: string) => {
+            const enums = ["active", "pending", "locked", "deactivate"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida");
+            }
+          }
+        }
       },
       age: {
         type: DataTypes.INTEGER,

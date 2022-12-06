@@ -73,9 +73,17 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       state: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["active", "locked", "inactive"],
+        defaultValue: "inactive",
+        validate: {
+          validator: (value: string) => {
+            const enums = ["active", "locked", "inactive"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida")
+            }
+          }
+        }
       },
       age: {
         type: DataTypes.INTEGER,
@@ -90,9 +98,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       rol: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["admin", "moderator"],
+        validate: {
+          validator: (value: string) => {
+            const enums = ["admin", "moderator"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida")
+            }
+          }
+        }
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

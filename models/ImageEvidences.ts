@@ -48,9 +48,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       imagetype: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["evidence", "document"],
+        validate: {
+          validator: (value: string) => {
+            const enums = ["evidence", "document"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida")
+            }
+          }
+        }
       },
       addressimage: DataTypes.STRING,
       createdAt: DataTypes.DATE,

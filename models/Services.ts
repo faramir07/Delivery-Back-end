@@ -56,19 +56,40 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       typepayment: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["cash", "transfer"]
+        validate: {
+          validator : (value: string) => {
+            const enums = ["cash", "transfer"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida")
+            }
+          }
+        }
       },
       typeservice: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["going", "round trip"],
+        validate: {
+          validator: (value: string) => {
+            const enums = ["going", "round trip"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida")
+            }
+          }
+        }
       },
       state: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["pending", "assigned", "cancelled", "finished"],
+        validate: {
+          validator: (value: string) => {
+            const enums = ["pending", "assigned", "cancelled", "finished"]
+            if(!enums.includes(value)){
+              throw new Error("no es una opción válida")
+            }
+          }
+        }
       },
       profit: {
         type: DataTypes.INTEGER,
