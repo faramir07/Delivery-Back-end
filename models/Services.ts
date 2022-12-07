@@ -33,8 +33,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
     static associate(models: any) {
       Services.hasMany(models.StateServices, { foreignKey: 'stateSer_id' });
-      Services.belongsTo(models.UserAdmin, { foreignKey: 'useASer_id' });
-      Services.belongsTo(models.UserClient, { foreignKey: 'useCSer_id' });
+      Services.belongsTo(models.UserAdmin, { foreignKey: 'userASer_id' });
+      Services.belongsTo(models.UserClient, { foreignKey: 'userCSer_id' });
       Services.belongsTo(models.UserDelivery, { foreignKey: 'userDSer_id' });
     }
   }

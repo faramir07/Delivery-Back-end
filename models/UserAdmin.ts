@@ -39,7 +39,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserAdmin.hasMany(models.Services, { foreignKey: 'useASer_id' });
+      UserAdmin.hasMany(models.Services, { foreignKey: 'userASer_id' });
     }
   }
 

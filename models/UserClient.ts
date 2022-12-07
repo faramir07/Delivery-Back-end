@@ -37,7 +37,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserClient.hasMany(models.Services, { foreignKey: "useCSer_id" });
+      UserClient.hasMany(models.Services, { foreignKey: "userCSer_id" });
     }
   }
   UserClient.init(
