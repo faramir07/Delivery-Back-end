@@ -1,9 +1,19 @@
 import db from "../../models";
 import bcrypt from "bcrypt";
 
+// se encripta los password ----------------------------------------------------
 const passwordCrypt = async (pass: string) => {
   const saltOrRounds = 10;
   return await bcrypt.hash(pass, saltOrRounds);
+};
+
+//control de de exito o fallido de registro ------------------------------------
+const regitrationRes = (newUser: any) => {
+  if (newUser) {
+    return { msg: "registro exitoso", newUser };
+  } else {
+    throw new Error("Error al crear usuario");
+  }
 };
 
 // registro de clientes ---------------------------------------------------------
@@ -43,11 +53,7 @@ export const registrationClient = async (
       phome: phome,
     });
 
-    if (newClient) {
-      return { msg: "Registro exitoso", newClient };
-    } else {
-      throw new Error("Error al crear usuario");
-    }
+    return regitrationRes(newClient);
   } else throw new Error("Error al crear usuario campo requerido");
 };
 
@@ -108,10 +114,46 @@ export const registrationDelivery = async (
       newImgDelivery
     );
 
-    if (newDeliveryCreate) {
-      return { msg: "Registro exitoso", newDeliveryCreate };
-    } else {
-      throw new Error("Error al crear usuario");
-    }
+    return regitrationRes(newDeliveryCreate);
+  } else throw new Error("Error al crear usuario campo requerido");
+};
+
+// registro de admins ------------------------------------------
+export const registrationAdmins = async (
+  firstname: string,
+  lastname: string,
+  email: string,
+  password: string,
+  age: number,
+  ci: number,
+  phome: number,
+  rol: string
+) => {
+  if (firstname && lastname && email && password && age && ci && phome && rol) {
+    const setAdminRol = await db.UserDelivery.findOne({
+      where: { rol: rol },
+    });
+    if (setAdminRol.length > 2)
+      throw new Error("no pueden existir mas de 2 administradores");
+
+    const setAdmin = await db.UserDelivery.findOne({
+      where: { email: email },
+    });
+    if (setAdmin) throw new Error("Este email ya esta registrado");
+
+    const passwordCryptAdmin = await passwordCrypt(password);
+
+    const newAdmin = await db.UserAdmin.create({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: passwordCryptAdmin,
+      age: age,
+      ci: ci,
+      phome: phome,
+      rol: rol,
+    });
+
+    return regitrationRes(newAdmin);
   } else throw new Error("Error al crear usuario campo requerido");
 };

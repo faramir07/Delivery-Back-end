@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   registrationClient,
   registrationDelivery,
+  registrationAdmins,
 } from "../controller/registration";
 
 const router = Router();
@@ -58,6 +59,28 @@ router.post("/delivery", async (req, res, next) => {
       imagetype
     );
     res.json(controllerDelivery);
+  } catch (error: any) {
+    error = { status: 400, error: error.message };
+    next(error);
+  }
+});
+
+// ruta registro de un nuevo admin --------------------------------
+router.post("/admin", async (req, res, next) => {
+  const { firstname, lastname, email, password, age, ci, phome, rol } =
+    req.body;
+  try {
+    const controllerAdmin = await registrationAdmins(
+      firstname,
+      lastname,
+      email,
+      password,
+      age,
+      ci,
+      phome,
+      rol
+    );
+    res.json(controllerAdmin);
   } catch (error: any) {
     error = { status: 400, error: error.message };
     next(error);
