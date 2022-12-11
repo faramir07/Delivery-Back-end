@@ -54,7 +54,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         defaultValue: false,
       },
       address: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       createdAt: DataTypes.DATE,

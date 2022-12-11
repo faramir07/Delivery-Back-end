@@ -9,7 +9,6 @@ interface UserAttrybutesAdmin {
   lastname: string;
   email: string;
   password: string;
-  address: string;
   state: Statetype;
   age: number;
   ci: number;
@@ -29,7 +28,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
     lastname!: string;
     email!: string;
     password!: string;
-    address!: string;
     state!: Statetype;
     age!: number;
     ci!: number;
@@ -65,10 +63,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
         unique: true,
       },
       password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      address: {
         type: DataTypes.STRING,
         allowNull: false,
       },
