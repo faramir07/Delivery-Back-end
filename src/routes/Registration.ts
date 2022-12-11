@@ -3,7 +3,7 @@ import {
   registrationClient,
   registrationDelivery,
   registrationAdmins,
-} from "../controller/registration";
+} from "../controller/registrationUsers";
 
 const router = Router();
 

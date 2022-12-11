@@ -7,7 +7,7 @@ const passwordCrypt = async (pass: string) => {
   return await bcrypt.hash(pass, saltOrRounds);
 };
 
-//control de de exito o fallido de registro ------------------------------------
+//control respuesta de de exito o fallido de registro ------------------------------------
 const regitrationRes = (newUser: any) => {
   if (newUser) {
     return { msg: "registro exitoso", newUser };
@@ -110,11 +110,11 @@ export const registrationDelivery = async (
       imagetype: imagetype,
     });
 
-    const newDeliveryCreate = await newDelivery.addImageEvidences(
+    const relationnewDeliveryCreate = await newDelivery.addImageEvidences(
       newImgDelivery
     );
 
-    return regitrationRes(newDeliveryCreate);
+    return regitrationRes({relationnewDeliveryCreate, newImgDelivery});
   } else throw new Error("Error al crear usuario campo requerido");
 };
 
@@ -130,13 +130,14 @@ export const registrationAdmins = async (
   rol: string
 ) => {
   if (firstname && lastname && email && password && age && ci && phome && rol) {
-    const setAdminRol = await db.UserDelivery.findOne({
+    const setAdminRol = await db.UserAdmin.findAll({
       where: { rol: rol },
     });
-    if (setAdminRol.length > 2)
+    
+    if (setAdminRol.length >= 2 && setAdminRol[0].rol === "admin")
       throw new Error("no pueden existir mas de 2 administradores");
 
-    const setAdmin = await db.UserDelivery.findOne({
+    const setAdmin = await db.UserAdmin.findOne({
       where: { email: email },
     });
     if (setAdmin) throw new Error("Este email ya esta registrado");
