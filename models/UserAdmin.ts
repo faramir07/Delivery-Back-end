@@ -14,6 +14,7 @@ interface UserAttrybutesAdmin {
   ci: number;
   phome: number;
   rol: Roltype;
+  login: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,6 +34,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     ci!: number;
     phome!: number;
     rol!: Roltype;
+    login!: boolean;
     createdAt!: Date;
     updatedAt!: Date;
 
@@ -102,6 +104,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
             }
           }
         }
+      },
+      login: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

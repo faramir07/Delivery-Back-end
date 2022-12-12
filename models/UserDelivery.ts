@@ -1,7 +1,7 @@
 "use strict";
 import { Model, UUIDV4 } from "sequelize";
 
-type StatetypeDeluvery = "active" | "pending" | "locked" | "deactivate";
+type StatetypeDeluvery = "active" | "pending" | "locked" | "inactive";
 interface UserAttrybutesDelivery {
   id: string;
   firstname: string;
@@ -15,6 +15,7 @@ interface UserAttrybutesDelivery {
   rol: "delivery";
   phome: number;
   base: number;
+  login: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -36,6 +37,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     rol!: "delivery";
     phome!: number;
     base!: number;
+    login!: boolean;
     createdAt!: Date;
     updatedAt!: Date;
 
@@ -79,7 +81,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         defaultValue: "pending",
         validate: {
           validator: (value: string) => {
-            const enums = ["active", "pending", "locked", "deactivate"]
+            const enums = ["active", "pending", "locked", "inactive"]
             if(!enums.includes(value)){
               throw new Error("no es una opción válida");
             }
@@ -105,6 +107,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       base: {
         type: DataTypes.INTEGER,
+      },
+      login: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

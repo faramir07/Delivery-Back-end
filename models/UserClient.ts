@@ -1,7 +1,7 @@
 "use strict";
 import { Model, UUIDV4 } from "sequelize";
 
-type Statetype = "active" | "locked";
+type Statetype = "active" | "inactive";
 interface UserAttrybutesClient {
   id: string;
   firstname: string;
@@ -14,6 +14,7 @@ interface UserAttrybutesClient {
   rol: "client";
   ci: number;
   phome: number;
+  login: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,6 +34,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     email!: string;
     rol!: "client";
     phome!: number;
+    login!: boolean;
     createdAt!: Date;
     updatedAt!: Date;
 
@@ -67,10 +69,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
       state: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "active",
+        defaultValue: "inactive",
         validate: {
           validator: (value: string) => {
-            const enuns = ["active", "pending", "locked"];
+            const enuns = ["active", "inactive"];
             if (!enuns.includes(value)) {
               throw new Error("no es una opción válida");
             }
@@ -98,6 +100,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       phome: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      login: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
