@@ -10,7 +10,7 @@ const passwordCrypt = async (pass: string) => {
 //control respuesta de de exito o fallido de registro ------------------------------------
 const regitrationRes = (newUser: any) => {
   if (newUser) {
-    return { msg: "registro exitoso", newUser };
+    return { msg: "Registro Exitoso"};
   } else {
     throw new Error("Error al crear usuario");
   }
@@ -114,7 +114,7 @@ export const registrationDelivery = async (
       newImgDelivery
     );
 
-    return regitrationRes({relationnewDeliveryCreate, newImgDelivery});
+    return regitrationRes(relationnewDeliveryCreate);
   } else throw new Error("Error al crear usuario campo requerido");
 };
 
