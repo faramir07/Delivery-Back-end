@@ -1,17 +1,38 @@
 import { Router } from "express";
-import { deliveryUser } from "../../controller/allUserDelivery"
+import { alldeliveryUser, deliveryId } from "../../controller/requestDelivery";
+import { authAdmin } from "../../controller/auth/authUser";
 
 const router = Router();
 
-router.get('/alldelivery/:id', async (req, res, net) =>{
-  const { id } = req.params
+router.get("/alldelivery", async (req, res, next) => {
+  const token = req.header("x-access-token");
   try {
-    const allUserDelivery = deliveryUser(id)
-    res.status(200).json(allUserDelivery)
+    const resulAuth = await authAdmin(token);
+    if(!resulAuth){
+      throw new Error("lo siento algo salio mal");
+    }
+    const allUserDelivery = await alldeliveryUser();
+    res.status(200).json(allUserDelivery);
   } catch (error: any) {
     error = { status: 403, error: error.message };
-    net(error)
+    next(error);
+  }
+});
+
+router.get("/delivery/:id", async (req, res, next) => {
+  const token = req.header("x-access-token");
+  const deliveryUserId = req.params.id;
+  try {
+    const resulAuth = await authAdmin(token);
+    if(!resulAuth){
+      throw new Error("lo siento algo saliomal");
+    }
+    const deliveryresult = await deliveryId(deliveryUserId);
+    res.status(200).json(deliveryresult);
+  } catch (error: any) {
+    error = { status: 403, error: error.message };
+    next(error);
   }
 })
 
-export default router
+export default router;
