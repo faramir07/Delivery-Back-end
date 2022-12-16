@@ -14,6 +14,8 @@ router.get("/alldelivery", async (req, res, next) => {
     const allUserDelivery = await alldeliveryUser();
     res.status(200).json(allUserDelivery);
   } catch (error: any) {
+    console.log(error.cause);
+    
     error = { status: 403, error: error.message };
     next(error);
   }
@@ -25,7 +27,7 @@ router.get("/delivery/:id", async (req, res, next) => {
   try {
     const resulAuth = await authAdmin(token);
     if(!resulAuth){
-      throw new Error("lo siento algo saliomal");
+      throw new Error("lo siento algo salio mal");
     }
     const deliveryresult = await deliveryId(deliveryUserId);
     res.status(200).json(deliveryresult);

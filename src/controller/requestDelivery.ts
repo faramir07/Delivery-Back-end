@@ -3,7 +3,7 @@ import db from "../../models";
 export const alldeliveryUser = async () => {  
   const allUserDelivery = await db.UserDelivery.findAll();
   if (allUserDelivery) {
-    return { allUserDelivery };
+    return allUserDelivery;
   } else {
     throw new Error("Error al cargar los usuarios");
   }

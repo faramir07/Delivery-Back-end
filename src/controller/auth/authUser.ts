@@ -4,7 +4,7 @@ import secret from "./config";
 
 export const authAdmin = async (token: string | undefined) => {
   if (!token) {
-    throw new Error("Uuups no se proporciono el token");
+    throw new Error("es necesario iniciar sesion");
   }
   const decoded = jwt.verify(token, secret);
   if (decoded && typeof decoded === "object") {
