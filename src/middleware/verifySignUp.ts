@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../../models";
 
-// client
+// client ---------------------------------
 export const checkEmailclient = async (
   req: Request,
   res: Response,
@@ -34,7 +34,7 @@ export const checkEmailclient = async (
   next();
 };
 
-// delivery
+// delivery ------------------------------------
 export const checkEmailDelivery = async (
   req: Request,
   res: Response,
@@ -84,7 +84,7 @@ export const checkEmailDelivery = async (
   Next();
 };
 
-// admin
+// admin -------------------------------------
 export const checkEmailAndRolAdmin = async (
   req: Request,
   res: Response,
@@ -103,7 +103,7 @@ export const checkEmailAndRolAdmin = async (
     !phome ||
     !rol
   ) {
-    res.status(401).send({ msg: "Error! Campo requerido" });
+    res.status(400).send({ msg: "Error! Campo requerido" });
     return;
   }
 

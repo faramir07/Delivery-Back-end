@@ -14,9 +14,7 @@ router.get("/alldelivery", async (req, res, next) => {
     const allUserDelivery = await alldeliveryUser();
     res.status(200).json(allUserDelivery);
   } catch (error: any) {
-    console.log(error.cause);
-    
-    error = { status: 403, error: error.message };
+    console.log(error);
     next(error);
   }
 });
@@ -32,7 +30,8 @@ router.get("/delivery/:id", async (req, res, next) => {
     const deliveryresult = await deliveryId(deliveryUserId);
     res.status(200).json(deliveryresult);
   } catch (error: any) {
-    error = { status: 403, error: error.message };
+    console.log(error);
+    
     next(error);
   }
 })

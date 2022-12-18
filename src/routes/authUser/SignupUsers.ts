@@ -3,7 +3,7 @@ import {
   registrationClient,
   registrationDelivery,
   registrationAdmins,
-} from "../../controller/registrationUsers";
+} from "../../controller/signupUsers";
 import {
   checkEmailAndRolAdmin,
   checkEmailDelivery,
