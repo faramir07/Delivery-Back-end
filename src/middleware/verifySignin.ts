@@ -29,7 +29,7 @@ export const checkLoginClient = async (
   const compareBcrypt = controllerBcrypt(validateUserClient.password, password);
 
   // valida password
-  if (compareBcrypt) {
+  if (!compareBcrypt) {
     res.status(404).send({ msg: "email y contraceña incorrecta" });
     return;
   }
@@ -65,6 +65,17 @@ export const checkLoginDelivery = async (
     return;
   }
 
+  const compareBcrypt = controllerBcrypt(
+    validateUserDelivery.password,
+    password
+  );
+
+  // valida password
+  if (!compareBcrypt) {
+    res.status(404).send({ msg: "email y contraceña incorrecta" });
+    return;
+  }
+
   // valida estado de la cuenta
   if (validateUserDelivery.state !== "active") {
     res.status(403).send({
@@ -73,22 +84,12 @@ export const checkLoginDelivery = async (
     return;
   }
 
-  const compareBcrypt = controllerBcrypt(
-    validateUserDelivery.password,
-    password
-  );
-
-  // valida password
-  if (compareBcrypt) {
-    res.status(404).send({ msg: "email y contraceña incorrecta" });
-    return;
-  }
-
   // valida base delivery
-  if (base < 50000) {
+  if (base === undefined || base < 50000) {
     res
       .status(401)
       .send({ msg: "deves poseer una base de por lo menos de 50 mil" });
+    return;
   }
 
   next();
@@ -114,19 +115,19 @@ export const checkLoginadmin = async (
     return;
   }
 
+  const compareBcrypt = controllerBcrypt(validateUserAdmin.password, password);
+
+  // valida password
+  if (!compareBcrypt) {
+    res.status(404).send({ msg: "email y contraceña incorrecta" });
+    return;
+  }
+
   // valida estado de la cuenta
   if (validateUserAdmin.state !== "active") {
     res.status(403).send({
       msg: "Tu cuenta está inactiva o bloqueada, revisa tu email para activar la cuanta o comunícate con soporte técnico",
     });
-    return;
-  }
-
-  const compareBcrypt = controllerBcrypt(validateUserAdmin.password, password);
-
-  // valida password
-  if (compareBcrypt) {
-    res.status(404).send({ msg: "email y contraceña incorrecta" });
     return;
   }
 
