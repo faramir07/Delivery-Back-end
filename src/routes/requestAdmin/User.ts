@@ -1,17 +1,11 @@
 import { Router } from "express";
-import { alldeliveryUser, deliveryId } from "../../controller/requestDelivery";
-import { authAdmin } from "../../controller/auth/authUser";
-
+import { allDeliveryUser, deliveryId, deliveryName } from "../../controller/requestAdmin/requestDelivery";
+import { authAdmin } from "../../middleware/authUsers";
 const router = Router();
 
-router.get("/alldelivery", async (req, res, next) => {
-  const token = req.header("x-access-token");
+router.get("/alldelivery", authAdmin, async (_req, res, next) => {
   try {
-    const resulAuth = await authAdmin(token);
-    if(!resulAuth){
-      throw new Error("lo siento algo salio mal");
-    }
-    const allUserDelivery = await alldeliveryUser();
+    const allUserDelivery = await allDeliveryUser();
     res.status(200).json(allUserDelivery);
   } catch (error: any) {
     console.log(error);
@@ -19,20 +13,26 @@ router.get("/alldelivery", async (req, res, next) => {
   }
 });
 
-router.get("/delivery/:id", async (req, res, next) => {
-  const token = req.header("x-access-token");
+router.get("/delivery/:id", authAdmin, async (req, res, next) => {
   const deliveryUserId = req.params.id;
   try {
-    const resulAuth = await authAdmin(token);
-    if(!resulAuth){
-      throw new Error("lo siento algo salio mal");
-    }
-    const deliveryresult = await deliveryId(deliveryUserId);
-    res.status(200).json(deliveryresult);
+    const deliveryPerId = await deliveryId(deliveryUserId);
+    res.status(200).json(deliveryPerId);
   } catch (error: any) {
     console.log(error);
-    
     next(error);
+  }
+});
+
+router.get("/delivery", authAdmin, async (req, res, next) => {
+  const { name } = req.query;
+  const stringifyName = JSON.stringify(name);
+  try {
+    const deliveryPerName = await deliveryName(stringifyName)
+    res.status(200).json(deliveryPerName)
+  } catch (error) {
+    console.log(error)
+    next()
   }
 })
 
