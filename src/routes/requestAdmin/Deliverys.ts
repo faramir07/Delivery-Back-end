@@ -4,10 +4,12 @@ import {
   deliveryId,
   deliveryName,
   deliveryLogin,
+  deliveryUpdate,
 } from "../../controller/requestAdmin/requestDelivery";
 import { authAdmin } from "../../middleware/authUsers";
 const router = Router();
 
+// todos los delivery
 router.get("/search", authAdmin, async (_req, res, next) => {
   try {
     const allUserDelivery = await allDeliveryUser();
@@ -20,6 +22,7 @@ router.get("/search", authAdmin, async (_req, res, next) => {
   }
 });
 
+// delivery por id
 router.get("/search/id/:id", authAdmin, async (req, res, next) => {
   const deliveryUserId = req.params.id;
   try {
@@ -33,11 +36,12 @@ router.get("/search/id/:id", authAdmin, async (req, res, next) => {
   }
 });
 
+// delivery por primer nombre
 router.get("/search/firstname", authAdmin, async (req, res, next) => {
   const { firstname } = req.query;
   const stringifyName = JSON.stringify(firstname);
   console.log(stringifyName);
-  
+
   try {
     const deliveryPerName = await deliveryName(stringifyName);
     if (typeof deliveryPerName === "string") {
@@ -45,11 +49,12 @@ router.get("/search/firstname", authAdmin, async (req, res, next) => {
     } else res.status(200).json(deliveryPerName);
   } catch (error) {
     console.log(error);
-    next();
+    next(error);
   }
 });
 
-router.get("/search/login", authAdmin, async (_req, res, next) => {  
+// delivery logueados
+router.get("/search/login", authAdmin, async (_req, res, next) => {
   try {
     const deliveryPerLogin = await deliveryLogin();
     if (typeof deliveryPerLogin === "string") {
@@ -57,7 +62,30 @@ router.get("/search/login", authAdmin, async (_req, res, next) => {
     } else res.status(200).json(deliveryPerLogin);
   } catch (error: any) {
     console.log(error);
-    next();
+    next(error);
+  }
+});
+
+// actualiza los datos del delivery
+router.put("/update", authAdmin, async (req, res, next) => {
+  const { firstname, lastname, address, state, phome, id, email } = req.body;
+  try {
+    const deliveryUpdateVelue = await deliveryUpdate({
+      id,
+      firstname,
+      lastname,
+      address,
+      state,
+      phome,
+      email
+    });
+
+    if (typeof deliveryUpdateVelue === "string") {
+      res.status(500).send({ msg: deliveryUpdateVelue });
+    } else res.status(200).send("datos actualozados con exito");
+  } catch (error: any) {
+    console.log(error);
+    next(error);
   }
 });
 

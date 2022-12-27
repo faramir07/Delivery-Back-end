@@ -36,6 +36,17 @@ export interface DeliveryResAdminType {
   updatedAt: Date;
 }
 
+// tipo de delivery put por el admin o moderador
+export interface DeliveryPutType {
+  id: string;
+  firstname?: string;
+  lastname?: string;
+  address?: string;
+  state?: StateTypeDelivery;
+  phome?: number;
+  email?: string;
+}
+
 // tipo de Delivery Res Admin.Moderador
 export interface DeliveryResAdminModeradorType {  
   id: string;
