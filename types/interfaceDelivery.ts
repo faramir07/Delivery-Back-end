@@ -18,8 +18,8 @@ export interface DeliveryModelType {
   updatedAt: Date;
 }
 
-// tipo de Delivery Res Admin.Admin
-export interface DeliveryResAdminType {  
+// tipo de Delivery Res para el admin.admin
+export interface DeliveryResAdminType {
   id: string;
   firstname: string;
   lastname: string;
@@ -47,8 +47,8 @@ export interface DeliveryPutType {
   email?: string;
 }
 
-// tipo de Delivery Res Admin.Moderador
-export interface DeliveryResAdminModeradorType {  
+// tipo de Delivery Res para Moderador
+export interface DeliveryResAdminModeradorType {
   id: string;
   firstname: string;
   lastname: string;
@@ -62,8 +62,8 @@ export interface DeliveryResAdminModeradorType {
   updatedAt: Date;
 }
 
-// tipo de Delivery Res Cliente
-export interface DeliveryResClientType {  
+// tipo de Delivery Res para el Cliente
+export interface DeliveryResClientType {
   id: string;
   firstname: string;
   lastname: string;

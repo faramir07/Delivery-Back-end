@@ -1,28 +1,15 @@
 "use strict";
-import {  Model, UUIDV4 } from "sequelize";
-
-type Statetype = "active" | "locked" | "inactive";
-type Roltype = "admin" | "moderator";
-interface UserAttrybutesAdmin {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  state: Statetype;
-  age: number;
-  ci: number;
-  phome: number;
-  rol: Roltype;
-  login: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import {
+  UserAdminModelType,
+  Statetype,
+  Roltype,
+} from "../types/interfaceModerator";
+import { Model, UUIDV4 } from "sequelize";
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class UserAdmin
-    extends Model<UserAttrybutesAdmin>
-    implements UserAttrybutesAdmin
+    extends Model<UserAdminModelType>
+    implements UserAdminModelType
   {
     id!: string;
     firstname!: string;
@@ -39,7 +26,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserAdmin.hasMany(models.Services, { foreignKey: 'userASer_id' });
+      UserAdmin.hasMany(models.Services, { foreignKey: "userASer_id" });
     }
   }
 
@@ -74,12 +61,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
         defaultValue: "inactive",
         validate: {
           validator: (value: string) => {
-            const enums = ["active", "locked", "inactive"]
-            if(!enums.includes(value)){
-              throw new Error("no es una opción válida")
+            const enums = ["active", "locked", "inactive"];
+            if (!enums.includes(value)) {
+              throw new Error("no es una opción válida");
             }
-          }
-        }
+          },
+        },
       },
       age: {
         type: DataTypes.INTEGER,
@@ -98,12 +85,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
         validate: {
           validator: (value: string) => {
-            const enums = ["admin", "moderator"]
-            if(!enums.includes(value)){
-              throw new Error("no es una opción válida")
+            const enums = ["admin", "moderator"];
+            if (!enums.includes(value)) {
+              throw new Error("no es una opción válida");
             }
-          }
-        }
+          },
+        },
       },
       login: {
         type: DataTypes.BOOLEAN,
