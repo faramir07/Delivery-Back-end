@@ -1,28 +1,14 @@
 "use strict";
+import {
+  DeliveryModelType,
+  StateTypeDelivery,
+} from "../types/interfaceDelivery";
 import { Model, UUIDV4 } from "sequelize";
-
-type StatetypeDeluvery = "active" | "pending" | "locked" | "deactivate";
-interface UserAttrybutesDelivery {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  address: string;
-  state: StatetypeDeluvery;
-  age: number;
-  ci: number;
-  rol: "delivery";
-  phome: number;
-  base: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class UserDelivery
-    extends Model<UserAttrybutesDelivery>
-    implements UserAttrybutesDelivery
+    extends Model<DeliveryModelType>
+    implements DeliveryModelType
   {
     id!: string;
     firstname!: string;
@@ -30,18 +16,21 @@ module.exports = (sequelize: any, DataTypes: any) => {
     email!: string;
     password!: string;
     address!: string;
-    state!: StatetypeDeluvery;
+    state!: StateTypeDelivery;
     age!: number;
     ci!: number;
     rol!: "delivery";
     phome!: number;
     base!: number;
+    login!: boolean;
     createdAt!: Date;
     updatedAt!: Date;
 
     static associate(models: any) {
-      UserDelivery.hasMany(models.Services, { foreignKey: 'userDSer_id' });
-      UserDelivery.hasMany(models.ImageEvidences, { foreignKey: 'userDImg_id' });
+      UserDelivery.hasMany(models.Services, { foreignKey: "userDSer_id" });
+      UserDelivery.hasMany(models.ImageEvidences, {
+        foreignKey: "userDImg_id",
+      });
     }
   }
   UserDelivery.init(
@@ -79,12 +68,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
         defaultValue: "pending",
         validate: {
           validator: (value: string) => {
-            const enums = ["active", "pending", "locked", "deactivate"]
-            if(!enums.includes(value)){
+            const enums = ["active", "pending", "locked", "inactive"];
+            if (!enums.includes(value)) {
               throw new Error("no es una opción válida");
             }
-          }
-        }
+          },
+        },
       },
       age: {
         type: DataTypes.INTEGER,
@@ -105,6 +94,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       base: {
         type: DataTypes.INTEGER,
+      },
+      login: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

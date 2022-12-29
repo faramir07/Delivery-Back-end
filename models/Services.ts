@@ -82,6 +82,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       state: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: "pending",
         validate: {
           validator: (value: string) => {
             const enums = ["pending", "assigned", "cancelled", "finished"]

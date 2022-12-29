@@ -1,12 +1,18 @@
-import { Router } from 'express';
-require('dotenv').config()
-import User from './User'
-import Registration from './Registration'
+import { Router } from "express";
+require("dotenv").config();
+import AdminDelivery from "./requestAdmin/Deliverys";
+import AdminModerator from "./requestAdmin/Moderators";
+import Signup from "./authUser/SignupUsers";
+import signin from "../routes/authUser/SigninUsers";
+import RegistrationServices from "./RegistrationServices";
+
 
 const routes = Router();
 
-// ejemplo
-routes.use('/user', User)
-routes.use('/registration', Registration)
+routes.use("/delivery", AdminDelivery);
+routes.use("/moderator", AdminModerator);
+routes.use("/signup", Signup);
+routes.use("/signin", signin);
+routes.use("/addservices", RegistrationServices);
 
 export default routes;
