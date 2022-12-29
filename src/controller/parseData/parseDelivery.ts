@@ -5,7 +5,7 @@ import {
   DeliveryResClientType,
 } from "../../../types/interfaceDelivery";
 
-// se pasean los datos para Admin.Admin
+// se pasean los datos delivery para Admin.Admin
 export const parseAdminDelivery = (
   delivery: DeliveryModelType[] | DeliveryModelType
 ) => {
@@ -50,7 +50,7 @@ export const parseAdminDelivery = (
     };
 };
 
-// se pasean los datos para Admin.Moderador
+// se pasean los datos delivery para Admin.Moderador
 export const parseModeratorDelivery = (
   delivery: DeliveryModelType[] | DeliveryModelType
 ) => {
@@ -89,7 +89,7 @@ export const parseModeratorDelivery = (
     };
 };
 
-// se pasean los datos para cliente
+// se parsean los datos delivery para cliente
 export const parseClientDelivery = (delivery: DeliveryModelType) => {
   const deliveryModel: DeliveryResClientType = {
     id: delivery.id,

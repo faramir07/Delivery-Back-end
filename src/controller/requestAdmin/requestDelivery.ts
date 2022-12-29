@@ -8,8 +8,9 @@ import { Op } from "sequelize";
 
 // busca todos los delivery
 export const allDeliveryUser = async () => {
-  const allUserDeliveryDb: DeliveryModelType[] =
+  const allUserDeliveryDb: DeliveryModelType[] | DeliveryModelType =
     await db.UserDelivery.findAll();
+
   if (allUserDeliveryDb) {
     const allDeliveryParse = parseAdminDelivery(allUserDeliveryDb);
     return allDeliveryParse;
@@ -18,19 +19,22 @@ export const allDeliveryUser = async () => {
 
 // busca un delivery por id
 export const deliveryId = async (deliveryId: string) => {
+  if (!deliveryId) return "el id es requerido";
   const deliveryIdDb: DeliveryModelType = await db.UserDelivery.findByPk(
     deliveryId
   );
+
   if (deliveryIdDb) {
     const deliveryIdParse = parseAdminDelivery(deliveryIdDb);
-    return deliveryIdParse;
+    return [deliveryIdParse];
   } else return "usuario no existe";
 };
 
 // busca un delivery por name
 export const deliveryName = async (firstname: string) => {
   const name = firstname.replace(/['"]+/g, "");
-  const deliveryName = await db.UserDelivery.findAll({
+  if (!name) return "nombre requerido";
+  const deliveryName: DeliveryModelType[] = await db.UserDelivery.findAll({
     where: {
       firstname: {
         [Op.iLike]: "%" + name + "%",
@@ -39,8 +43,8 @@ export const deliveryName = async (firstname: string) => {
   });
 
   if (deliveryName.length > 0) {
-    const DeliveryNameParse = parseAdminDelivery(deliveryName);
-    return DeliveryNameParse;
+    const deliveryNameParse = parseAdminDelivery(deliveryName);
+    return deliveryNameParse;
   } else return "usuario no existe";
 };
 
@@ -52,7 +56,7 @@ export const deliveryLogin = async () => {
     },
   });
 
-  if (allDeliveryLogin.length > 0) {
+  if (allDeliveryLogin) {
     const allDeliveryLoginParse = parseAdminDelivery(allDeliveryLogin);
     return allDeliveryLoginParse;
   } else return "no hay delivery logueados";
@@ -60,8 +64,8 @@ export const deliveryLogin = async () => {
 
 // actualiza los datos del delivery
 export const deliveryUpdate = async (deliveryData: DeliveryPutType) => {
-  if (!deliveryData.id) return "id del usuario es requerido";
   const deliveryPerId = await deliveryId(deliveryData.id);
+
   if (typeof deliveryPerId === "string")
     return deliveryPerId + " para realizar la actualizacion de los datos";
 

@@ -54,7 +54,7 @@ export const authModerator = async (
       }
     }
   } catch (error: any) {
-    console.log(error.expiredAt);
+    console.log(error);
     res.status(401).send({ msg: "sesion a caducado vuelva a iniciar sesion" });
   }
 };

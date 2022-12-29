@@ -1,14 +1,14 @@
 
 // tipo de modelo sql moderador
-export type Statetype = "active" | "locked" | "inactive";
+export type StateTypeAdmin = "active" | "locked" | "inactive";
 export type Roltype = "admin" | "moderator";
-export interface UserAdminModelType {
+export interface AdminModelType {
   id: string;
   firstname: string;
   lastname: string;
   email: string;
   password: string;
-  state: Statetype;
+  state: StateTypeAdmin;
   age: number;
   ci: number;
   phome: number;
@@ -24,7 +24,7 @@ export interface MoreratorResAdminType {
   firstname: string;
   lastname: string;
   email: string;
-  state: Statetype;
+  state: StateTypeAdmin;
   age: number;
   ci: number;
   phome: number;
@@ -40,7 +40,7 @@ export interface ModeratorPutType {
   firstname: string;
   lastname: string;
   email: string;
-  state: Statetype;
+  state: StateTypeAdmin;
   age: number;
   ci: number;
   phome: number;

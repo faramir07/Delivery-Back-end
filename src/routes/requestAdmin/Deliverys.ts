@@ -23,8 +23,9 @@ router.get("/search", authAdmin, async (_req, res, next) => {
 });
 
 // delivery por id
-router.get("/search/id/:id", authAdmin, async (req, res, next) => {
-  const deliveryUserId = req.params.id;
+router.get("/search/deliveryid/:id", authAdmin, async (req, res, next) => {  
+  if(!req.params) res.status(400).send({ msg: "el id es requerido"})
+  const deliveryUserId = req.params?.id;
   try {
     const deliveryPerId = await deliveryId(deliveryUserId);
     if (typeof deliveryPerId === "string") {
@@ -40,7 +41,6 @@ router.get("/search/id/:id", authAdmin, async (req, res, next) => {
 router.get("/search/firstname", authAdmin, async (req, res, next) => {
   const { firstname } = req.query;
   const stringifyName = JSON.stringify(firstname);
-  console.log(stringifyName);
 
   try {
     const deliveryPerName = await deliveryName(stringifyName);
@@ -77,7 +77,7 @@ router.put("/update", authAdmin, async (req, res, next) => {
       address,
       state,
       phome,
-      email
+      email,
     });
 
     if (typeof deliveryUpdateVelue === "string") {
