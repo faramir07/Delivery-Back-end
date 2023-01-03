@@ -7,6 +7,7 @@ interface StateServicesType {
   checkoutput: boolean;
   evidence: boolean;
   address: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,12 +22,15 @@ module.exports = (sequelize: any, DataTypes: any) => {
     checkoutput!: boolean;
     evidence!: boolean;
     address!: string;
+    description!: string;
     createdAt!: Date;
     updatedAt!: Date;
 
     static associate(models: any) {
-      StateServices.hasMany(models.ImageEvidences, { foreignKey: 'stateImg_id' });
-      StateServices.belongsTo(models.Services, { foreignKey: 'stateSer_id' });
+      StateServices.hasMany(models.ImageEvidences, {
+        foreignKey: "stateImg_id",
+      });
+      StateServices.belongsTo(models.Services, { foreignKey: "stateSer_id" });
     }
   }
 
@@ -56,6 +60,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
       address: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

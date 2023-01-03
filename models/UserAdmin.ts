@@ -1,22 +1,22 @@
 "use strict";
 import {
-  UserAdminModelType,
-  Statetype,
+  AdminModelType,
+  StateTypeAdmin,
   Roltype,
 } from "../types/interfaceModerator";
 import { Model, UUIDV4 } from "sequelize";
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class UserAdmin
-    extends Model<UserAdminModelType>
-    implements UserAdminModelType
+    extends Model<AdminModelType>
+    implements AdminModelType
   {
     id!: string;
     firstname!: string;
     lastname!: string;
     email!: string;
     password!: string;
-    state!: Statetype;
+    state!: StateTypeAdmin;
     age!: number;
     ci!: number;
     phome!: number;
