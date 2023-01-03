@@ -3,7 +3,6 @@ import db from "../../models";
 export const registrationService = async (
   typepayment: string,
   typeservice: string,
-  description: string,
   profit: number,
   value: number,
   address: string[],
@@ -13,7 +12,6 @@ export const registrationService = async (
   if (
     typepayment &&
     typeservice &&
-    description &&
     profit &&
     value &&
     address &&
@@ -26,7 +24,6 @@ export const registrationService = async (
       return await db.Services.create({
         typepayment: typepayment,
         typeservice: typeservice,
-        description: description,
         profit: profit,
         value: value,
         [foreignKey]: userid,

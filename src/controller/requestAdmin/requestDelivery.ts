@@ -26,18 +26,17 @@ export const deliveryId = async (deliveryId: string) => {
 
   if (deliveryIdDb) {
     const deliveryIdParse = parseAdminDelivery(deliveryIdDb);
-    return [deliveryIdParse];
+    return deliveryIdParse;
   } else return "usuario no existe";
 };
 
 // busca un delivery por name
 export const deliveryName = async (firstname: string) => {
-  const name = firstname.replace(/['"]+/g, "");
-  if (!name) return "nombre requerido";
+  if (!firstname) return "nombre requerido";
   const deliveryName: DeliveryModelType[] = await db.UserDelivery.findAll({
     where: {
       firstname: {
-        [Op.iLike]: "%" + name + "%",
+        [Op.iLike]: "%" + firstname + "%",
       },
     },
   });

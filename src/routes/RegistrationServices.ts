@@ -7,7 +7,6 @@ router.post("/addservice", async (req, res, next) => {
   const {
     typepayment,
     typeservice,
-    description,
     profit,
     value,
     address,
@@ -18,7 +17,6 @@ router.post("/addservice", async (req, res, next) => {
     const newService = await registrationService(
       typepayment,
       typeservice,
-      description,
       profit,
       value,
       address,
