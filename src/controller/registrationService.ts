@@ -22,9 +22,9 @@ export const registrationService = async (
     } else return "usuario no registrado";
     console.log("campoa registrar", columFkey);
 
-    try {
-      const transaction = await db.sequelize.Transaction();
+    const transaction = await db.sequelize.Transaction();
 
+    try {
       await db.Services.create(
         {
           value: value,
@@ -33,17 +33,17 @@ export const registrationService = async (
           profit: profitDelivery,
           [columFkey]: userid,
         },
-        { transaction }
+        { transaction: transaction }
       );
 
       await db.StateServices.create(poing, {
-        transaction,
+        transaction: transaction,
       });
 
-      await db.transaction.commit();
+      await transaction.commit();
       return "servicio registrado con exito";
     } catch (error: any) {
-      await db.transaction.rollback();
+      await transaction.rollback();
       return "error al registar servicio";
     }
   } else return "campo requerido";
