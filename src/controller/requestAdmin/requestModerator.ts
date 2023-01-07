@@ -79,14 +79,23 @@ export const moderatosUpdate = async (moderatorData: ModeratorPutType) => {
   if (typeof moderatorPerId === "string")
     return moderatorPerId + " para realizar la actualizacion de los datos";
 
-  const { firstname, lastname, email, state, age, ci, phome, rol } =
+  const { id, firstname, lastname, email, state, age, ci, phome, rol } =
     moderatorData;
+
+  if (rol) {
+    const setAdminRol = await db.UserAdmin.findAll({
+      where: { rol: rol },
+    });
+    if (setAdminRol.length >= 2 && setAdminRol[0].rol === "admin") {
+      return "no pueden existir mas de 2 admin";
+    }
+  }
 
   const updateModerator = await db.UserAdmin.update(
     { firstname, lastname, email, state, age, ci, phome, rol },
     {
       where: {
-        id: moderatorData.id,
+        id: id,
       },
     }
   );
