@@ -1,26 +1,18 @@
 "user strict";
+import {
+  ServiceModelType,
+  Statetype,
+  TypePaymentType,
+  TypeServiceType,
+} from "../types/interfaceService";
 import { Model, UUIDV4 } from "sequelize";
 
-type Statetype = "pending" | "assigned" | "cancelled" | "finished";
-type Typeservicetype = "going" | "round trip";
-type Typepaymenttype = "cash" | "transfer";
-interface ServiceType {
-  id: string;
-  value: number;
-  typepayment: Typepaymenttype;
-  typeservice: Typeservicetype;
-  state: Statetype;
-  profit: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Services extends Model<ServiceType> implements ServiceType {
+  class Services extends Model<ServiceModelType> implements ServiceModelType {
     id!: string;
     value!: number;
-    typepayment!: Typepaymenttype;
-    typeservice!: Typeservicetype;
+    typepayment!: TypePaymentType;
+    typeservice!: TypeServiceType;
     state!: Statetype;
     profit!: number;
     createdAt!: Date;
