@@ -7,21 +7,17 @@ router.post("/addservice", async (req, res, next) => {
   const {
     typepayment,
     typeservice,
-    profit,
     value,
-    address,
+    poing,
     userid,
-    rol,
   } = req.body;
   try {
     const newService = await registrationService(
       typepayment,
       typeservice,
-      profit,
       value,
-      address,
+      poing,
       userid,
-      rol
     );
     res.json(newService);
   } catch (error: any) {

@@ -1,61 +1,50 @@
 import db from "../../models";
+import { PoingType } from "../../types/interfaceService";
 
 export const registrationService = async (
   typepayment: string,
   typeservice: string,
-  profit: number,
   value: number,
-  address: string[],
-  userid: string,
-  rol: string
+  poing: PoingType[],
+  userid: string
 ) => {
-  if (
-    typepayment &&
-    typeservice &&
-    profit &&
-    value &&
-    address &&
-    userid &&
-    rol
-  ) {
-    let newService: any;
+  if (typepayment && typeservice && value && poing && userid) {
+    const profitDelivery = value - 500;
 
-    const addService = async (foreignKey: string) => {
-      return await db.Services.create({
-        typepayment: typepayment,
-        typeservice: typeservice,
-        profit: profit,
-        value: value,
-        [foreignKey]: userid,
+    const userAdmin = await db.UserAdmin.findByPk(userid);
+    const userClient = await db.UserAdmin.findByPk(userid);
+
+    let columFkey: "userASer_id" | "userCSer_id";
+    if (userAdmin) {
+      columFkey = "userASer_id";
+    } else if (userClient) {
+      columFkey = "userCSer_id";
+    } else return "usuario no registrado";
+    console.log("campoa registrar", columFkey);
+
+    try {
+      const transaction = await db.sequelize.Transaction();
+
+      await db.Services.create(
+        {
+          value: value,
+          typepayment: typepayment,
+          typeservice: typeservice,
+          profit: profitDelivery,
+          [columFkey]: userid,
+        },
+        { transaction }
+      );
+
+      await db.StateServices.create(poing, {
+        transaction,
       });
-    };
 
-    if (rol == "admin" || rol == "moderator") {
-      newService = await addService("userASer_id");
-    } else if (rol == "client") {
-      newService = await addService("userCSer_id");
-    } else throw new Error("Error al crear servicio acceso denegado");
-
-    address.map(async (obj: string) => {
-      const createStateService = await db.StateServices.create({
-        address: obj,
-      });
-      return await newService.addStateServices(await createStateService);
-    });
-
-    const resNewService = await db.Services.findOne({
-      where: {
-        id: newService.id,
-      },
-      include: {
-        model: db.StateServices,
-      },
-    });
-
-    if (resNewService) {
-      return { msg: "registro exitoso", resNewService };
-    } else {
-      throw new Error("Error al crear servicio");
+      await db.transaction.commit();
+      return "servicio registrado con exito";
+    } catch (error: any) {
+      await db.transaction.rollback();
+      return "error al registar servicio";
     }
-  } else throw new Error("Error al crear servicio campo requerido");
+  } else return "campo requerido";
 };

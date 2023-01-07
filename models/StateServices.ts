@@ -63,6 +63,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       description: {
         type: DataTypes.TEXT,
+        allowNull: false,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
