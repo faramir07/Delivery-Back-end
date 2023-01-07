@@ -50,7 +50,7 @@ router.get("/search/firstname", authAdmin, async (req, res, next) => {
   }
 });
 
-router.post("/update", authAdmin, async (req, res, next) => {
+router.put("/update", authAdmin, async (req, res, next) => {
   const { firstname, lastname, email, address, state, age, ci, phome, id } =
     req.body;
   try {
