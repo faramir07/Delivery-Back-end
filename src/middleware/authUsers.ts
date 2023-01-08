@@ -29,6 +29,7 @@ export const authAdmin = async (
     if (decoded && typeof decoded.payload === "object") {
       const setUserAdmin = await db.UserAdmin.findByPk(decoded.payload.id);
       if (setUserAdmin && setUserAdmin.rol === "admin") {
+        req.body.adminId = decoded.payload.id;
         next();
       } else {
         res.status(401).send({ error: "No autorizado" });

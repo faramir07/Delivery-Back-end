@@ -19,6 +19,7 @@ export interface ServiceModelType {
 export type PoingType = {
   address: string;
   description: string;
+  stateSer_id?: string
 }
 
 export interface ServicePutType {

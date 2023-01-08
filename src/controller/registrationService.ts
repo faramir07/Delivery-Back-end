@@ -1,48 +1,70 @@
 import db from "../../models";
+import { ClientModelType } from "../../types/interfaceClient";
+import { AdminModelType } from "../../types/interfaceModerator";
 import { PoingType } from "../../types/interfaceService";
 
+// registra un nuevo servicio
 export const registrationService = async (
   typepayment: string,
   typeservice: string,
   value: number,
   poing: PoingType[],
-  userid: string
+  clientId: string,
+  adminId: string
 ) => {
-  if (typepayment && typeservice && value && poing && userid) {
+  if (typepayment && typeservice && value && poing && clientId && adminId) {
     const profitDelivery = value - 500;
 
-    const userAdmin = await db.UserAdmin.findByPk(userid);
-    const userClient = await db.UserAdmin.findByPk(userid);
-
-    let columFkey: "userASer_id" | "userCSer_id";
-    if (userAdmin) {
-      columFkey = "userASer_id";
-    } else if (userClient) {
-      columFkey = "userCSer_id";
-    } else return "usuario no registrado";
-    console.log("campoa registrar", columFkey);
-
-    const transaction = await db.sequelize.Transaction();
+    const transaction = await db.sequelize.transaction();
 
     try {
-      await db.Services.create(
+      let columFkey: "userASer_id" | "userCSer_id";
+
+      const clientPerId = await db.UserClient.findByPk(clientId);
+      if (clientPerId) {
+        return "Cliente no existe";
+      }
+
+      const userAdmin: AdminModelType | null = await db.UserAdmin.findByPk(
+        adminId
+      );
+      if (userAdmin) {
+        columFkey = "userASer_id";
+      } else {
+        const userClient: ClientModelType | null = await db.UserClient.findByPk(
+          adminId
+        );
+        if (userClient) {
+          columFkey = "userCSer_id";
+        } else return "Admin/Moderator no existe";
+      }
+
+      const newService = await db.Services.create(
         {
           value: value,
           typepayment: typepayment,
           typeservice: typeservice,
           profit: profitDelivery,
-          [columFkey]: userid,
+          [columFkey]: adminId,
+          userCSer_id: clientId,
         },
         { transaction: transaction }
       );
 
-      await db.StateServices.create(poing, {
+      if (newService) {
+        for (const point of poing) {
+          point.stateSer_id = newService.id;
+        }
+      }
+
+      const newStateService = await db.StateServices.bulkCreate(poing, {
         transaction: transaction,
       });
 
       await transaction.commit();
-      return "servicio registrado con exito";
+      return { newService, newStateService };
     } catch (error: any) {
+      console.log(error);
       await transaction.rollback();
       return "error al registar servicio";
     }
