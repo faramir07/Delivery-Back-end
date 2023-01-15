@@ -1,21 +1,11 @@
 "user strict";
+import { StateServicesModelType } from "../types/interfaceStateServices";
 import { Model, UUIDV4 } from "sequelize";
-
-interface StateServicesType {
-  id: string;
-  checkinput: boolean;
-  checkoutput: boolean;
-  evidence: boolean;
-  address: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class StateServices
-    extends Model<StateServicesType>
-    implements StateServicesType
+    extends Model<StateServicesModelType>
+    implements StateServicesModelType
   {
     id!: string;
     checkinput!: boolean;
