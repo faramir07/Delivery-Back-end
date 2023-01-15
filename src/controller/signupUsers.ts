@@ -12,7 +12,7 @@ const regitrationRes = (newUser: any) => {
   if (newUser) {
     return { msg: "Registro Exitoso" };
   } else {
-    throw new Error("Error al crear usuario");
+    return "Error al crear usuario";
   }
 };
 
@@ -61,28 +61,41 @@ export const registrationDelivery = async (
 ) => {
   const passwordCryptDelivery = await passwordCrypt(password);
 
-  const newDelivery = await db.UserDelivery.create({
-    firstname: firstname,
-    lastname: lastname,
-    email: email,
-    password: passwordCryptDelivery,
-    address: address,
-    age: age,
-    ci: ci,
-    phome: phome,
-  });
+  const transaction = await db.sequelize.transaction();
 
-  const newImgDelivery = await db.ImageEvidences.create({
-    imagename: imagename,
-    image: image,
-    imagetype: imagetype,
-  });
+  try {
+    const newDelivery = await db.UserDelivery.create(
+      {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        password: passwordCryptDelivery,
+        address: address,
+        age: age,
+        ci: ci,
+        phome: phome,
+      },
+      { transaction: transaction }
+    );
 
-  const relationnewDeliveryCreate = await newDelivery.addImageEvidences(
-    newImgDelivery
-  );
+    const newImgDelivery = await db.ImageEvidences.create(
+      {
+        imagename: imagename,
+        image: image,
+        imagetype: imagetype,
+        userDImg_id: newDelivery.id,
+      },
+      { transaction: transaction }
+    );
 
-  return regitrationRes(relationnewDeliveryCreate);
+    await transaction.commit();
+
+    return regitrationRes(newImgDelivery);
+  } catch (error: any) {
+    console.log(error);
+    await transaction.rollback();
+    return "error al crear el Delivery";
+  }
 };
 
 // registro de admins ------------------------------------------
