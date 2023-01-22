@@ -1,34 +1,18 @@
 "use strict";
+import { ClientModelType, StatetypeClient } from "../types/interfaceClient"
 import { Model, UUIDV4 } from "sequelize";
 
-type Statetype = "active" | "inactive";
-interface UserAttrybutesClient {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  address: string;
-  state: Statetype;
-  age: number;
-  rol: "client";
-  ci: number;
-  phome: number;
-  login: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
 module.exports = (sequelize: any, DataTypes: any) => {
   class UserClient
-    extends Model<UserAttrybutesClient>
-    implements UserAttrybutesClient
+    extends Model<ClientModelType>
+    implements ClientModelType
   {
     id!: string;
     firstname!: string;
     lastname!: string;
     ci!: number;
     password!: string;
-    state!: Statetype;
+    state!: StatetypeClient;
     address!: string;
     age!: number;
     email!: string;

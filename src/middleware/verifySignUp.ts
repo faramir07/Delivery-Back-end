@@ -21,14 +21,14 @@ export const checkEmailclient = async (
     !ci ||
     !phome
   ) {
-    res.status(401).send({ msg: "Error! Campo requerido" });
+    res.status(401).send({ error: "Error! Campo requerido" });
     return;
   }
 
   //valida email duplicado
   const setclient = await db.UserClient.findOne({ where: { email: email } });
   if (setclient) {
-    res.status(400).send({ msg: "Este email ya esta en uso" });
+    res.status(400).send({ error: "Este email ya esta en uso" });
     return;
   }
   next();
@@ -68,7 +68,7 @@ export const checkEmailDelivery = async (
     !image ||
     !imagetype
   ) {
-    res.status(401).send({ msg: "Error! Campo requerido" });
+    res.status(401).send({ error: "Error! Campo requerido" });
     return;
   }
 
@@ -77,7 +77,7 @@ export const checkEmailDelivery = async (
     where: { email: email },
   });
   if (setDelivery) {
-    res.status(400).send({ msg: "Este email ya esta en uso" });
+    res.status(400).send({ error: "Este email ya esta en uso" });
     return;
   }
 
@@ -103,7 +103,7 @@ export const checkEmailAndRolAdmin = async (
     !phome ||
     !rol
   ) {
-    res.status(400).send({ msg: "Error! Campo requerido" });
+    res.status(400).send({ error: "Error! Campo requerido" });
     return;
   }
 
@@ -112,7 +112,7 @@ export const checkEmailAndRolAdmin = async (
     where: { rol: rol },
   });
   if (setAdminRol.length >= 2 && setAdminRol[0].rol === "admin") {
-    res.status(418).send({ msg: "no pueden existir mas de 2 admin" });
+    res.status(418).send({ error: "no pueden existir mas de 2 admin" });
     return;
   }
 
@@ -121,7 +121,7 @@ export const checkEmailAndRolAdmin = async (
     where: { email: email },
   });
   if (setAdminEmail) {
-    res.status(400).send({ msg: "Este email ya esta en uso" });
+    res.status(400).send({ error: "Este email ya esta en uso" });
     return;
   }
 

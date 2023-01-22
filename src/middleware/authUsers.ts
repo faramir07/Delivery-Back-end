@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import db from "../../models";
 import secret from "../controller/auth/config";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
+
+interface DecodedTokenType {
+  header: jwt.JwtHeader;
+  payload: jwt.JwtPayload | string;
+  signature: string;
+}
 
 // autenticacion Admin
 export const authAdmin = async (
@@ -11,23 +17,29 @@ export const authAdmin = async (
 ) => {
   const token = req.header("x-access-token");
   if (!token) {
-    res.status(403).send({ msg: "token requerido" });
+    res.status(403).send({ error: "token requerido" });
     return;
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
-    if (decoded && typeof decoded === "object") {
-      const setUserAdmin = await db.UserAdmin.findByPk(decoded.id);
+    const decoded = jwt.verify(token, secret, {
+      complete: true,
+    }) as DecodedTokenType;
+
+    if (decoded && typeof decoded.payload === "object") {
+      const setUserAdmin = await db.UserAdmin.findByPk(decoded.payload.id);
       if (setUserAdmin && setUserAdmin.rol === "admin") {
+        req.body.adminId = decoded.payload.id;
         next();
       } else {
-        res.status(401).send({ msg: "No autorizado" });
+        res.status(401).send({ error: "No autorizado" });
       }
     }
   } catch (error: any) {
-    console.log(error.expiredAt);
-    res.status(401).send({ msg: "sesion a caducado vuelva a iniciar sesion" });
+    console.log(error);
+    res
+      .status(401)
+      .send({ error: "sesion a caducado vuelva a iniciar sesion" });
   }
 };
 
@@ -39,23 +51,27 @@ export const authModerator = async (
 ) => {
   const token = req.header("x-access-token");
   if (!token) {
-    res.status(403).send({ msg: "token requerido" });
+    res.status(403).send({ error: "token requerido" });
     return;
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
-    if (decoded && typeof decoded === "object") {
-      const setUserAdmin = await db.UserAdmin.findByPk(decoded.id);
+    const decoded = jwt.verify(token, secret, {
+      complete: true,
+    }) as DecodedTokenType;
+    if (decoded && typeof decoded.payload === "object") {
+      const setUserAdmin = await db.UserAdmin.findByPk(decoded.payload.id);
       if (setUserAdmin && setUserAdmin.rol === "moderator") {
         next();
       } else {
-        res.status(401).send({ msg: "No autorizado" });
+        res.status(401).send({ error: "No autorizado" });
       }
     }
   } catch (error: any) {
     console.log(error);
-    res.status(401).send({ msg: "sesion a caducado vuelva a iniciar sesion" });
+    res
+      .status(401)
+      .send({ error: "sesion a caducado vuelva a iniciar sesion" });
   }
 };
 
@@ -67,22 +83,24 @@ export const authDelivery = async (
 ) => {
   const token = req.header("x-access-token");
   if (!token) {
-    res.status(403).send({ msg: "token requerido" });
+    res.status(403).send({ error: "token requerido" });
     return;
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
-    if (decoded && typeof decoded === "object") {
-      const setUserAdmin = await db.UserDelivery.findByPk(decoded.id);
+    const decoded = jwt.verify(token, secret, {
+      complete: true,
+    }) as DecodedTokenType;
+    if (decoded && typeof decoded.payload === "object") {
+      const setUserAdmin = await db.UserDelivery.findByPk(decoded.payload.id);
       if (setUserAdmin && setUserAdmin.rol === "delivery") {
         next();
       } else {
-        res.status(401).send({ msg: "No autorizado" });
+        res.status(401).send({ error: "No autorizado" });
       }
     }
   } catch (error: any) {
-    res.status(403).send({ msg: "token requerido" });
+    res.status(403).send({ error: "token requerido" });
     return;
   }
 };
@@ -95,22 +113,24 @@ export const authClient = async (
 ) => {
   const token = req.header("x-access-token");
   if (!token) {
-    res.status(403).send({ msg: "token requerido" });
+    res.status(403).send({ error: "token requerido" });
     return;
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
-    if (decoded && typeof decoded === "object") {
-      const setUserAdmin = await db.UserClient.findByPk(decoded.id);
+    const decoded = jwt.verify(token, secret, {
+      complete: true,
+    }) as DecodedTokenType;
+    if (decoded && typeof decoded.payload === "object") {
+      const setUserAdmin = await db.UserClient.findByPk(decoded.payload.id);
       if (setUserAdmin && setUserAdmin.rol === "client") {
         next();
       } else {
-        res.status(401).send({ msg: "No autorizado" });
+        res.status(401).send({ error: "No autorizado" });
       }
     }
   } catch (error: any) {
-    res.status(403).send({ msg: "token requerido" });
+    res.status(403).send({ error: "token requerido" });
     return;
   }
 };

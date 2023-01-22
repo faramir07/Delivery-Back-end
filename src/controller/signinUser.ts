@@ -1,10 +1,12 @@
 import db from "../../models";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import secret from "./auth/config";
 
-// se cre un nuevo token
+// se cree un nuevo token
 const newToken = (userId: string, secret: string) => {
-  return jwt.sign({ id: userId }, secret, { expiresIn: 8640 });
+  const currentTimestamp = Date.now();
+  const expirationTimestamp = currentTimestamp + (24 * 60 * 60 * 1000);
+  return jwt.sign({ id: userId }, secret, { expiresIn: expirationTimestamp });
 };
 
 // login de los admins ------------------------------------------

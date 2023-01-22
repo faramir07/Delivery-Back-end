@@ -1,32 +1,26 @@
 "user strict";
+import { StateServicesModelType } from "../types/interfaceStateServices";
 import { Model, UUIDV4 } from "sequelize";
-
-interface StateServicesType {
-  id: string;
-  checkinput: boolean;
-  checkoutput: boolean;
-  evidence: boolean;
-  address: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class StateServices
-    extends Model<StateServicesType>
-    implements StateServicesType
+    extends Model<StateServicesModelType>
+    implements StateServicesModelType
   {
     id!: string;
     checkinput!: boolean;
     checkoutput!: boolean;
     evidence!: boolean;
     address!: string;
+    description!: string;
     createdAt!: Date;
     updatedAt!: Date;
 
     static associate(models: any) {
-      StateServices.hasMany(models.ImageEvidences, { foreignKey: 'stateImg_id' });
-      StateServices.belongsTo(models.Services, { foreignKey: 'stateSer_id' });
+      StateServices.hasMany(models.ImageEvidences, {
+        foreignKey: "stateImg_id",
+      });
+      StateServices.belongsTo(models.Services, { foreignKey: "stateSer_id" });
     }
   }
 
@@ -54,6 +48,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
         defaultValue: false,
       },
       address: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      description: {
         type: DataTypes.TEXT,
         allowNull: false,
       },

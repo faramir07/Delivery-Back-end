@@ -71,3 +71,14 @@ export interface DeliveryResClientType {
   phome: number;
   login: boolean;
 }
+
+// tipo de Delivery Res para servicio
+export interface DeliveryResService {
+  id: string;
+  firstname: string;
+  lastname: string;
+  rol: "delivery";
+  phome: number;
+  base: number;
+  login: boolean;
+}

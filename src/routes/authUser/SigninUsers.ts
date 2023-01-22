@@ -17,7 +17,7 @@ router.post("/userAdmin", checkLoginadmin, async (req, res, next) => {
     const authUsersAdmin = await signinAdmin(email);
     res.json(authUsersAdmin);
   } catch (error: any) {
-    error = { status: 401, error: error.message };
+    console.log(error);
     next(error);
   }
 });
@@ -28,7 +28,7 @@ router.post("/userClient", checkLoginClient, async (req, res, next) => {
     const authUsersClient = await signinClient(email);
     res.json(authUsersClient);
   } catch (error: any) {
-    error = { status: 401, error: error.message };
+    console.log(error);
     next(error);
   }
 });
@@ -39,7 +39,7 @@ router.post("/userDelivery", checkLoginDelivery, async (req, res, next) => {
     const authUserDelivery = await signinDelivery(email, base);
     res.json(authUserDelivery);
   } catch (error: any) {
-    error = { status: 401, error: error.message };
+    console.log(error);
     next(error);
   }
 });
