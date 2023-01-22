@@ -125,3 +125,7 @@ export const serviceAssigned = async () => {
 
   return serviceParce;
 };
+
+export const  ServiceNameClient = async (firstnameClient: string) => {
+  if(!firstnameClient) return ""
+}

@@ -14,7 +14,7 @@ routes.use("/delivery", AdminDelivery);
 routes.use("/moderator", AdminModerator);
 routes.use("/client", AdminClient);
 routes.use("/addservices", AddServicesAdmin);
-routes.use("/service", ServiceAdmin)
+routes.use("/service", ServiceAdmin);
 routes.use("/signup", Signup);
 routes.use("/signin", signin);
 
